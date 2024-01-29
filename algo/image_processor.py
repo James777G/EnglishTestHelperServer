@@ -10,16 +10,8 @@ def extract_text_from_image(image_path):
     return text
 
 
-def process_images(images):
-    concatenated_text = ""
+def process_images(client, images):
 
-    for image in images:
-        text = extract_text_from_image(image)
-        concatenated_text += text + " "
-
-    return generate_english_test_answer(concatenated_text)
+    return generate_english_test_answer(images, client)
 
 
-# image_paths = ['D:\\Projects\\TestHelperServer\\static\\test.jpg']
-#
-# print(process_images(image_paths))

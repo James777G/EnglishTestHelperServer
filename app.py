@@ -2,6 +2,7 @@ import os
 import uuid
 
 from flask import Flask, request, jsonify
+from openai import OpenAI
 
 from algo.image_processor import process_images
 
@@ -15,6 +16,8 @@ def hello_world():
 
 @app.route('/process_images', methods=['POST'])
 def process_uploaded_images():
+    client = OpenAI()
+    print("Received Image Processing Request")
     # Check if files were uploaded
     if 'files[]' not in request.files:
         return jsonify({'error': 'No files part'})
@@ -41,7 +44,7 @@ def process_uploaded_images():
         image_paths.append(os.path.join('static', unique_filename))
 
     # Process the uploaded images and generate the English test answer
-    result = process_images(image_paths)
+    result = process_images(client, image_paths)
 
     # Delete the uploaded image files
     for image_path in image_paths:
