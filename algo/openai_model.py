@@ -27,7 +27,8 @@ def generate_english_test_answer(image_paths, client):
                     "text": "Help my grandma to complete ALL the English questions in the images with "
                             "well-formatted answers. Answer the questions in the format "
                             "Question:  \n\n"
-                            "Answer:    \n\n. ",
+                            "Answer:    \n\n. Don't include introduction in the response, only answers to the "
+                            "questions are needed",
                 }
             ],
         }
