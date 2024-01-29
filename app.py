@@ -2,7 +2,6 @@ import os
 import ssl
 import uuid
 
-from OpenSSL import SSL
 from flask import Flask, request, jsonify
 from openai import OpenAI
 
@@ -12,8 +11,9 @@ app = Flask(__name__)
 cert_path = os.path.abspath('cert.pem')
 key_path = os.path.abspath('key.pem')
 
-context = ssl.SSLContext(SSL.SSLv23_METHOD)
+context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain(certfile=cert_path, keyfile=key_path)
+
 @app.route('/', methods=['GET'])
 def hello_world():
     return 'Hello World!'
