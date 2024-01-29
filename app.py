@@ -1,13 +1,20 @@
 import os
+import ssl
 import uuid
 
+from OpenSSL import SSL
 from flask import Flask, request, jsonify
 from openai import OpenAI
 
 from algo.image_processor import process_images
 
 app = Flask(__name__)
+cert_path = os.path.abspath('cert.pem')
+key_path = os.path.abspath('key.pem')
 
+context = SSL.Context(SSL.SSLv23_METHOD)
+context.use_privatekey_file(key_path)
+context.use_certificate_file(cert_path)
 
 @app.route('/', methods=['GET'])
 def hello_world():
@@ -54,5 +61,7 @@ def process_uploaded_images():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain(certfile=cert_path, keyfile=key_path)
+    app.run(host='0.0.0.0', port=443, ssl_context=context)
 
